@@ -189,9 +189,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }
 
   const addIncident = (incidentData: Omit<Incident, "id" | "fechaHora" | "operador">) => {
+    const maxId = state.incidents.reduce((max, incident) => {
+      const numericId = Number.parseInt(incident.id, 10)
+      return isNaN(numericId) ? max : Math.max(max, numericId)
+    }, 0)
+
+    const newId = (maxId + 1).toString().padStart(3, "0")
+
     const newIncident: Incident = {
       ...incidentData,
-      id: Date.now().toString(),
+      id: newId,
       fechaHora: new Date().toISOString(),
       operador: state.user.name,
       historial: [
