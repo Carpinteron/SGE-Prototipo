@@ -14,7 +14,7 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between px-4">
         <div className="flex items-center space-x-4">
           <h1 className="text-lg font-semibold text-foreground">
-            Sistema de Gestión de Emergencias – Panel de Incidentes
+            Gestion de Emergencias
           </h1>
         </div>
 

@@ -4,6 +4,7 @@ import { Login } from "@/components/Login"
 import { Dashboard } from "@/components/Dashboard"
 import { IncidentDetail } from "@/components/IncidentDetail"
 import { IncidentForm } from "@/components/IncidentForm"
+import { Footer } from "@/components/Footer"
 import { AppProvider, useAppContext } from "@/context/AppContext"
 
 function AppContent() {
@@ -14,13 +15,14 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-16">
         {currentView === "dashboard" && <Dashboard />}
         {currentView === "incident-detail" && <IncidentDetail />}
         {currentView === "incident-form" && <IncidentForm />}
       </main>
+      <Footer />
     </div>
   )
 }

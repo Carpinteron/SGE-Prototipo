@@ -6,6 +6,7 @@ import { Dashboard } from "./components/Dashboard"
 import { IncidentDetail } from "./components/IncidentDetail"
 import { IncidentFormPage } from "./components/IncidentFormPage"
 import { IncidentList } from "./components/IncidentList"
+import { Footer } from "./components/Footer"
 
 const AppContent: React.FC = () => {
   const { user, currentView } = useApp()
@@ -15,14 +16,15 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-16">
         {currentView === "dashboard" && <Dashboard />}
         {currentView === "incident-detail" && <IncidentDetail />}
         {currentView === "incident-form" && <IncidentFormPage />}
         {currentView === "incident-list" && <IncidentList />}
       </main>
+      <Footer />
     </div>
   )
 }

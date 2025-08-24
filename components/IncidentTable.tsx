@@ -122,6 +122,19 @@ export function IncidentTable() {
     }
   }
 
+  const getEstadoBadgeClass = (estado: string) => {
+    switch (estado) {
+      case "Pendiente":
+        return "bg-red-500 hover:bg-red-600 text-white border-red-500" // Red
+      case "En progreso":
+        return "bg-yellow-500 hover:bg-yellow-600 text-white border-yellow-500" // Yellow
+      case "Resuelto":
+        return "bg-green-500 hover:bg-green-600 text-white border-green-500" // Green
+      default:
+        return ""
+    }
+  }
+
   const handleViewIncident = (incident: Incident) => {
     setSelectedIncident(incident)
     setCurrentView("incident-detail")
@@ -154,6 +167,7 @@ export function IncidentTable() {
                   ID {getSortIcon("id")}
                 </Button>
               </TableHead>
+              <TableHead>Acciones</TableHead>
               <TableHead>
                 <Button variant="ghost" onClick={() => handleSort("tipo")} className="h-8 px-2">
                   Tipo {getSortIcon("tipo")}
@@ -180,17 +194,26 @@ export function IncidentTable() {
                   Operador {getSortIcon("operador")}
                 </Button>
               </TableHead>
-              <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {sortedIncidents.map((incident) => (
               <TableRow key={incident.id}>
                 <TableCell className="font-mono">{incident.id}</TableCell>
+                <TableCell>
+                  <Button variant="ghost" size="sm" onClick={() => handleViewIncident(incident)}>
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                </TableCell>
                 <TableCell>{incident.tipo}</TableCell>
                 <TableCell>{incident.ubicacion}</TableCell>
                 <TableCell>
-                  <Badge variant={getEstadoBadgeVariant(incident.estado)}>{incident.estado}</Badge>
+                  <Badge
+                    variant={getEstadoBadgeVariant(incident.estado)}
+                    className={getEstadoBadgeClass(incident.estado)}
+                  >
+                    {incident.estado}
+                  </Badge>
                 </TableCell>
                 <TableCell>{new Date(incident.fechaHora).toLocaleString("es-CO")}</TableCell>
                 <TableCell>
@@ -203,11 +226,6 @@ export function IncidentTable() {
                   </div>
                 </TableCell>
                 <TableCell>{incident.operador}</TableCell>
-                <TableCell>
-                  <Button variant="ghost" size="sm" onClick={() => handleViewIncident(incident)}>
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

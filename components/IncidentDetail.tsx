@@ -41,6 +41,19 @@ export function IncidentDetail() {
     }
   }
 
+  const getEstadoBadgeClass = (estado: string) => {
+    switch (estado) {
+      case "Pendiente":
+        return "bg-red-500 hover:bg-red-600 text-white border-red-500" // Red
+      case "En progreso":
+        return "bg-yellow-500 hover:bg-yellow-600 text-white border-yellow-500" // Yellow
+      case "Resuelto":
+        return "bg-green-500 hover:bg-green-600 text-white border-green-500" // Green
+      default:
+        return ""
+    }
+  }
+
   const handleResourceChange = (resourceId: string, checked: boolean) => {
     if (selectedIncident.estado === "Resuelto") return
 
@@ -60,11 +73,15 @@ export function IncidentDetail() {
       recursos: resourceNames,
       estado: resourceNames.length > 0 ? "En progreso" : selectedIncident.estado,
     })
+
+    console.log("[v0] Resources updated in real-time:", resourceNames)
   }
 
   const handleStatusChange = (newStatus: "Pendiente" | "En progreso" | "Resuelto") => {
     if (selectedIncident.estado === "Resuelto") return
+
     updateIncident(selectedIncident.id, { estado: newStatus })
+    console.log("[v0] Status updated in real-time:", newStatus)
   }
 
   const isResolved = selectedIncident.estado === "Resuelto"
@@ -78,7 +95,10 @@ export function IncidentDetail() {
         </Button>
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Detalle del Incidente #{selectedIncident.id}</h2>
-          <Badge variant={getEstadoBadgeVariant(selectedIncident.estado)} className="text-sm">
+          <Badge
+            variant={getEstadoBadgeVariant(selectedIncident.estado)}
+            className={`text-sm ${getEstadoBadgeClass(selectedIncident.estado)}`}
+          >
             {selectedIncident.estado}
           </Badge>
         </div>
@@ -302,7 +322,7 @@ export function IncidentDetail() {
                       )
                     }
                   >
-                    Actualizar Recursos
+                    Actualizar Estado
                   </Button>
                 </>
               )}
